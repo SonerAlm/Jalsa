@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  Amigo eSIM × Jalsa Salana UK 2026 — MOBILE WEB page (phone browser)
+  FILE: jalsa-mobile.html
+  ----------------------------------------------------------------------------
+  ASSUMPTIONS / ADAPTATIONS (vs. jalsa-web.html master)
+  • This is the website as seen on a phone browser — it uses WEB chrome
+    (sticky logo header, app-download strip, footer), NOT app chrome.
+  • Single-column mobile layout. "Buy Now" CTAs link to web checkout (#).
+  • Network logos (EE/Three/Vodafone) shown as the "three networks" strip.
+  • Prices and plan IDs are PLACEHOLDERS (see inline comments).
+  • No religious imagery — geometric khatam-star texture only. Google Fonts only.
+  ============================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<title>Amigo × Jalsa Salana — Stay Connected</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --green:#1a3a2a; --green-2:#1f4632; --green-deep:#13261c;
+  --pink:#c0278e; --pink-press:#a31f78; --pink-soft:#fbeef6;
+  --gold:#c9a84c; --gold-bright:#e0c373; --gold-deep:#a8862f;
+  --ink:#2c2a28; --ink-2:#5f5a52; --muted:#8b857a;
+  --paper:#ffffff; --cream:#faf7f0; --cream-2:#f3eee2; --line:#ece6d6;
+  --serif:'Poppins',-apple-system,BlinkMacSystemFont,sans-serif; /* headings use Amigo's Poppins */
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,'SF Pro Text',sans-serif;
+  --brand:'Poppins',var(--sans);
+  --urdu:'Noto Nastaliq Urdu',serif;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bot:env(safe-area-inset-bottom,0px);
+  --statusbar:44px;            /* iOS status-bar visual height */
+  --tap:44px;                  /* iOS minimum touch target */
+  --shadow-card:0 2px 16px rgba(26,40,30,.08);
+  --shadow-pink:0 8px 22px rgba(192,39,142,.28);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);background:#0e1c14;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+svg{display:block}
+
+/* ── Phone column (for desktop preview; full-bleed on device) ───────── */
+.device{max-width:430px;margin:0 auto;min-height:100vh;background:var(--paper);position:relative;overflow:hidden;box-shadow:0 0 60px rgba(0,0,0,.35)}
+
+/* ── Mobile web header (sticky) ─────────────────────────────────────── */
+.mhead{position:fixed;top:0;left:0;right:0;max-width:430px;margin:0 auto;height:58px;z-index:90;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:rgba(255,255,255,.92);-webkit-backdrop-filter:saturate(180%) blur(16px);backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid var(--line)}
+.mh-logo img{height:26px;display:block}
+.mh-cta{min-height:38px;padding:0 18px;font-size:14px;white-space:nowrap}
+
+/* ── Scroll area ────────────────────────────────────────────────────── */
+.scroll{padding-top:0;padding-bottom:0}
+
+/* ── Buttons ────────────────────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--sans);font-weight:600;border:none;cursor:pointer;border-radius:999px;min-height:var(--tap);transition:transform .12s,background .2s}
+.btn:active{transform:scale(.97)}
+.btn-pink{background:var(--pink);color:#fff;box-shadow:var(--shadow-pink)}
+.btn-pink:active{background:var(--pink-press)}
+.btn-block{width:100%;font-size:16px;padding:0 22px}
+
+/* ── Hero ───────────────────────────────────────────────────────────── */
+.hero{position:relative;background:radial-gradient(130% 120% at 85% 0%,var(--green-2),var(--green) 55%,var(--green-deep));color:#fff;overflow:hidden;padding:calc(58px + 30px) 22px 38px}
+.geo::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23c9a84c' stroke-width='1'%3E%3Cpath d='M40 8 L72 40 L40 72 L8 40 Z'/%3E%3Cpath d='M17 17 L63 17 L63 63 L17 63 Z'/%3E%3Ccircle cx='40' cy='40' r='5'/%3E%3C/g%3E%3C/svg%3E");background-size:80px 80px;opacity:.1}
+.hero .glow{position:absolute;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.18),transparent 65%);top:-130px;right:-110px}
+.hero-inner{position:relative;z-index:2}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--gold-bright);border:1px solid rgba(201,168,76,.4);border-radius:999px;padding:7px 13px;background:rgba(201,168,76,.08);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--gold-bright)}
+.event-name{font-family:var(--serif);font-weight:700;font-size:42px;line-height:1.02;color:var(--gold-bright);margin-top:18px;letter-spacing:-.02em}
+.event-meta{margin-top:13px;color:rgba(255,255,255,.8);font-size:13px;font-weight:500;line-height:1.7}
+.event-meta b{color:#fff;font-weight:600}
+.hero h1{font-family:var(--serif);font-weight:600;font-size:27px;line-height:1.16;margin-top:22px}
+.hero .lede{font-size:14.5px;color:rgba(255,255,255,.82);margin-top:10px}
+.hero-link{display:inline-flex;align-items:center;gap:6px;color:var(--gold-bright);font-size:13.5px;font-weight:600;margin-top:20px}
+.hero-points{display:flex;flex-direction:column;gap:12px;margin-top:22px}
+.hero-point{display:flex;align-items:center;gap:11px;font-size:13.5px;font-weight:500;color:rgba(255,255,255,.9)}
+.hero-point .hp-ic{flex:none;width:32px;height:32px;border-radius:50%;background:rgba(201,168,76,.14);border:1px solid rgba(201,168,76,.36);display:flex;align-items:center;justify-content:center}
+.hero-point .hp-ic svg{width:17px;height:17px}
+body.dir-ivory .hero-point{color:var(--ink-2)}
+body.dir-ivory .hero-point .hp-ic{background:var(--pink-soft);border-color:rgba(192,39,142,.26)}
+body.dir-ivory .hero-point .hp-ic svg *{stroke:var(--pink)}
+.hero .hero-sub{font-size:14.5px;color:rgba(255,255,255,.84);margin-top:10px;text-wrap:pretty}
+body.dir-ivory .hero .hero-sub{color:var(--ink-2)}
+.net-strip{margin-top:22px}
+.net-label{font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-bright);margin-bottom:10px}
+body.dir-ivory .net-label{color:var(--gold-deep)}
+.net-tiles{display:flex;gap:10px}
+.net-tile{flex:1;height:56px;background:#fff;border-radius:13px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,.2)}
+body.dir-ivory .net-tile{box-shadow:var(--shadow-card);border:1px solid var(--line)}
+.net-tile img{width:40px;height:40px;object-fit:contain}
+/* Secure payment (mobile) */
+.pay-logos{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
+.pl{height:46px;flex:1;min-width:88px;padding:0 10px;background:#fff;border:1px solid var(--line);border-radius:11px;display:flex;align-items:center;justify-content:center;gap:4px;box-shadow:var(--shadow-card)}
+.pl .vw{font:italic 800 18px/1 Arial,sans-serif;color:#1434cb;letter-spacing:.5px}
+.pl .gp1{font:700 18px/1 Arial,sans-serif;color:#4285f4}
+.pl .gp2{font:600 17px/1 Arial,sans-serif;color:#5f6368}
+.pl .ap{font:600 16px/1 -apple-system,Arial,sans-serif;color:#111}
+.pl .rv{font:700 15px/1 Arial,sans-serif;color:#191c1f}
+.pl .rvp{font:700 10px/1 Arial,sans-serif;color:#6a4bff;text-transform:uppercase;letter-spacing:.06em;margin-left:1px}
+.pl-mc{position:relative;width:40px;height:24px}
+.pl-mc i{position:absolute;top:0;width:24px;height:24px;border-radius:50%}
+.pl-mc .r{left:0;background:#eb001b}
+.pl-mc .y{right:0;background:#f79e1b;mix-blend-mode:multiply}
+
+/* ── Trust chips ────────────────────────────────────────────────────── */
+.trust{background:var(--cream);border-bottom:1px solid var(--line);padding:16px 0}
+.trust-row{display:flex;gap:10px;overflow-x:auto;padding:0 22px;scrollbar-width:none}
+.trust-row::-webkit-scrollbar{display:none}
+.chip{flex:none;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 14px;font-size:12.5px;color:var(--ink-2);font-weight:500}
+.chip b{color:var(--ink);font-weight:700}
+.ee-badge{display:inline-flex;align-items:center;justify-content:center;height:20px;padding:0 6px;border-radius:4px;background:#00857e;color:#fff;font-weight:700;font-size:11px}
+.pay-row{display:flex;gap:7px;padding:12px 22px 0;flex-wrap:wrap}
+.pay-badge{height:24px;display:flex;align-items:center;padding:0 9px;border:1px solid var(--line);border-radius:5px;background:#fff;font-size:10px;font-weight:700;color:var(--muted)}
+
+/* ── Section scaffolding ────────────────────────────────────────────── */
+.sec{padding:40px 22px}
+.kicker{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:8px}
+.title{font-family:var(--serif);font-weight:600;font-size:30px;line-height:1.06;color:var(--green)}
+.sub{font-size:14.5px;color:var(--ink-2);margin-top:10px;text-wrap:pretty}
+
+/* ── Plans ──────────────────────────────────────────────────────────── */
+.toggle{display:flex;background:var(--cream-2);border-radius:999px;padding:4px;margin:18px 0 6px;gap:4px}
+.toggle button{flex:1;border:none;background:transparent;font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--ink-2);min-height:var(--tap);border-radius:999px;cursor:pointer;transition:.2s}
+.toggle button.active{background:var(--green);color:#fff}
+.toggle-note{font-size:12.5px;color:var(--muted);margin-bottom:16px}
+.cards{display:flex;flex-direction:column;gap:16px}
+.card{position:relative;background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px 20px;box-shadow:var(--shadow-card)}
+.card.featured{border:2px solid var(--pink)}
+.card-badge{position:absolute;top:-12px;left:20px;white-space:nowrap;background:var(--gold);color:#3a2e09;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 13px;border-radius:999px}
+.card.featured{padding-top:30px}
+.card-top{display:flex;align-items:flex-end;justify-content:space-between}
+.card-tier{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep)}
+.card-data{font-family:var(--serif);font-size:34px;font-weight:700;color:var(--green);line-height:1;margin-top:6px;letter-spacing:-.02em}
+.card-data span{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--ink-2)}
+.card-valid{font-size:13px;color:var(--ink-2);margin-top:2px}
+.card-price{text-align:right}
+.card-price .from{font-size:11px;color:var(--muted);display:block}
+.card-price .amt{font-family:var(--serif);font-size:30px;font-weight:700;color:var(--ink)}
+.card-feats{list-style:none;margin:16px 0 18px;display:flex;flex-direction:column;gap:9px;border-top:1px solid var(--line);padding-top:16px}
+.card-feats li{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--ink)}
+.tick{flex:none;width:18px;height:18px;border-radius:50%;background:var(--pink-soft);display:flex;align-items:center;justify-content:center}
+.tick svg{width:10px;height:10px}
+.card .btn{width:100%;font-size:15px}
+.fineprint{font-size:11.5px;color:var(--muted);text-align:center;margin-top:16px}
+
+/* ── International ──────────────────────────────────────────────────── */
+.intl{background:var(--green);color:#fff;position:relative;overflow:hidden}
+.intl .glow{position:absolute;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.14),transparent 65%);bottom:-160px;left:-100px}
+.intl .title{color:#fff}.intl .kicker{color:var(--gold-bright)}
+.intl p{font-size:14.5px;color:rgba(255,255,255,.84);margin-top:10px;position:relative;z-index:2}
+.intl-link{display:inline-flex;align-items:center;gap:7px;color:var(--gold-bright);font-weight:600;font-size:14px;margin-top:16px;position:relative;z-index:2}
+.selector{position:relative;z-index:2;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:18px;margin-top:20px}
+.selector h4{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:10px}
+.cselect{position:relative}
+.cselect select{width:100%;appearance:none;background:#fff;border:none;border-radius:12px;padding:0 44px 0 16px;min-height:var(--tap);font-family:var(--sans);font-size:15px;font-weight:600;color:var(--ink)}
+.cselect .globe{position:absolute;right:15px;top:50%;transform:translateY(-50%);pointer-events:none}
+.srow{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12);font-size:13px;color:rgba(255,255,255,.72)}
+.srow b{color:#fff}
+.urdu-note{position:relative;z-index:2;margin-top:18px;padding:14px 16px;border:1px solid rgba(201,168,76,.3);border-radius:14px;background:rgba(201,168,76,.06);display:flex;gap:13px;align-items:center}
+.urdu-note .ur{font-family:var(--urdu);font-size:16px;line-height:2;color:var(--gold-bright);direction:rtl;text-align:right;flex:1}
+.urdu-note .en{font-size:11px;color:rgba(255,255,255,.6);max-width:110px;border-left:1px solid rgba(255,255,255,.18);padding-left:13px}
+
+/* ── How it works ───────────────────────────────────────────────────── */
+.how{background:var(--cream)}
+.steps{display:flex;flex-direction:column;gap:8px;margin-top:22px}
+.step{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.step-ico{flex:none;width:48px;height:48px;border-radius:50%;background:var(--pink-soft);display:flex;align-items:center;justify-content:center}
+.step-ico svg{width:24px;height:24px}
+.step-n{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep)}
+.step h3{font-family:var(--serif);font-size:21px;font-weight:600;color:var(--green);margin:2px 0 3px}
+.step p{font-size:13px;color:var(--ink-2)}
+.how-foot{text-align:center;font-family:var(--serif);font-size:18px;color:var(--green);margin-top:22px;font-weight:500}
+
+/* ── Compatibility ──────────────────────────────────────────────────── */
+.dev-list{list-style:none;margin-top:18px;display:flex;flex-direction:column;gap:11px}
+.dev-list li{display:flex;align-items:center;gap:11px;font-size:14.5px;color:var(--ink);font-weight:500}
+.dev-list .tick{width:22px;height:22px;background:#e7f3ec}
+.dev-list .tick svg{width:12px;height:12px}
+.dial-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px 22px;box-shadow:var(--shadow-card);text-align:center;margin-top:18px}
+.dial-label{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:12px}
+.dial-code{font-family:var(--sans);font-weight:700;font-size:48px;letter-spacing:.06em;color:var(--green);line-height:1}
+.dial-help{font-size:14px;color:var(--ink-2);margin-top:14px;text-wrap:pretty}
+.dial-help strong{color:var(--pink);font-weight:700}
+
+/* ── FAQ ────────────────────────────────────────────────────────────── */
+.faq{background:var(--cream)}
+.faq-list{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.faq-item{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.faq-q{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 18px;min-height:var(--tap);font-family:var(--sans);font-size:15px;font-weight:600;color:var(--green)}
+.faq-q::-webkit-details-marker{display:none}
+.faq-plus{flex:none;width:22px;height:22px;position:relative}
+.faq-plus::before,.faq-plus::after{content:"";position:absolute;background:var(--pink);border-radius:2px}
+.faq-plus::before{top:10px;left:4px;right:4px;height:2px}
+.faq-plus::after{left:10px;top:4px;bottom:4px;width:2px;transition:opacity .2s}
+.faq-item[open] .faq-plus::after{opacity:0}
+.faq-a{padding:0 18px 18px;font-size:13.5px;color:var(--ink-2)}
+
+/* ── Sticky bottom CTA bar (iOS) ────────────────────────────────────── */
+.cta-bar{position:fixed;left:0;right:0;bottom:0;max-width:430px;margin:0 auto;z-index:80;background:rgba(255,255,255,.86);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-top:1px solid var(--line);border-radius:22px 22px 0 0;box-shadow:0 -8px 28px rgba(26,40,30,.12);padding:12px 18px calc(12px + var(--safe-bot));display:flex;align-items:center;gap:14px}
+.cta-info{flex:1;min-width:0}
+.cta-info .l1{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.02em}
+.cta-info .l2{font-size:14px;color:var(--ink);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cta-info .l2 b{color:var(--pink)}
+.cta-bar .btn{padding:0 24px;font-size:15px;flex:none}
+/* ── App strip + footer (mobile web) ────────────────────────────────── */
+.appstrip-m{background:var(--green-deep);color:#fff}
+.appstrip-m .kicker{color:var(--gold-bright)}
+.appstrip-m .title{color:#fff}
+.appstrip-m p{font-size:14px;color:rgba(255,255,255,.82);margin-top:10px}
+.store-badges{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.store-badge{display:flex;align-items:center;gap:10px;background:#000;border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:10px 16px;flex:1;min-width:138px}
+.store-badge .sb-sub{font-size:9px;color:rgba(255,255,255,.7);letter-spacing:.02em}
+.store-badge .sb-main{font-size:15px;font-weight:600;color:#fff;line-height:1.1;font-family:var(--brand)}
+.mfoot{background:var(--green-deep);color:#fff;padding:30px 22px 36px;border-top:1px solid rgba(255,255,255,.1);position:relative;overflow:hidden}
+.mfoot .logo-img{height:30px;position:relative;z-index:2}
+.mfoot .partner{font-family:var(--serif);font-size:15px;color:var(--gold-bright);margin:14px 0 0;line-height:1.4;position:relative;z-index:2}
+.mfoot .mf-links{display:flex;flex-wrap:wrap;gap:10px 18px;margin:18px 0 0;position:relative;z-index:2}
+.mfoot .mf-links a{font-size:13.5px;color:rgba(255,255,255,.68)}
+.mfoot .copy{font-size:12px;color:rgba(255,255,255,.4);margin-top:18px;position:relative;z-index:2}
+/* ══════ TWEAKS: design directions, pattern ══════ */
+body.tex-subtle .geo::before{opacity:.05!important}
+body.tex-off .geo::before{opacity:0!important}
+/* Ivory & Rose (light, Amigo-forward) */
+body.dir-ivory .hero{background:linear-gradient(180deg,#fcf8f0,#f3ecdb);color:var(--ink)}
+body.dir-ivory .hero .geo::before{opacity:.07}
+body.dir-ivory .hero .glow{background:radial-gradient(circle,rgba(192,39,142,.1),transparent 65%)}
+body.dir-ivory .eyebrow{color:var(--pink);border-color:rgba(192,39,142,.3);background:rgba(192,39,142,.06)}
+body.dir-ivory .eyebrow .dot{background:var(--pink)}
+body.dir-ivory .event-name{color:var(--green)}
+body.dir-ivory .event-meta{color:var(--ink-2)}
+body.dir-ivory .event-meta b{color:var(--ink)}
+body.dir-ivory .hero h1{color:var(--ink)}
+body.dir-ivory .hero .lede{color:var(--ink-2)}
+body.dir-ivory .hero-link{color:var(--pink)}
+/* Emerald Ceremonial (centered, gold-forward) */
+body.dir-emerald .hero{background:radial-gradient(120% 135% at 50% -10%,#26543c,#163524 58%,#0e1f16);text-align:center}
+body.dir-emerald .hero .geo::before{opacity:.17}
+body.dir-emerald .hero .glow{left:50%;right:auto;transform:translateX(-50%)}
+body.dir-emerald .eyebrow{margin:0 auto}
+/* Tweaks panel */
+#tweaks{position:fixed;right:14px;bottom:14px;z-index:9999;width:248px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 50px rgba(26,40,30,.26);font-family:var(--sans);color:var(--ink);padding:15px 15px 16px;display:none}
+#tweaks.show{display:block}
+#tweaks .tw-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+#tweaks .tw-title{font-family:var(--serif);font-size:19px;font-weight:600;color:var(--green)}
+#tweaks .tw-x{border:none;background:var(--cream-2);width:26px;height:26px;border-radius:50%;cursor:pointer;color:var(--ink-2);font-size:14px}
+#tweaks .tw-group{margin-bottom:13px}
+#tweaks .tw-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+#tweaks .tw-seg{display:flex;flex-direction:column;gap:5px}
+#tweaks .tw-seg.row{flex-direction:row}
+#tweaks .tw-opt{flex:1;border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 11px;font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--ink-2);cursor:pointer;text-align:left;transition:.15s}
+#tweaks .tw-seg.row .tw-opt{text-align:center;padding:9px 5px;font-size:11.5px}
+#tweaks .tw-opt small{display:block;font-weight:500;font-size:10px;color:var(--muted);margin-top:1px}
+#tweaks .tw-opt.on{border-color:var(--pink);background:var(--pink-soft);color:var(--pink)}
+#tweaks .tw-opt.on small{color:var(--pink)}
+</style>
+</head>
+<body>
+<template id="__bundler_thumbnail">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#1a3a2a"/><g transform="translate(50 50)"><circle cx="0" cy="-2" r="16" fill="none" stroke="#c9a84c" stroke-width="3"/><path d="M-8 1c0 0 3 5 8 5s8-5 8-5" fill="none" stroke="#c9a84c" stroke-width="3" stroke-linecap="round"/><circle cx="-6" cy="-5" r="2.4" fill="#c0278e"/><circle cx="6" cy="-5" r="2.4" fill="#c0278e"/></g></svg>
+</template>
+
+
+<!-- Mobile web sticky header -->
+<header class="mhead">
+  <a class="mh-logo" href="#" aria-label="amigo"><img src="assets/amigo-logo.png" alt="amigo" /></a>
+  <a href="#plans" class="btn btn-pink mh-cta">View Plans</a>
+</header>
+
+<div class="device">
+<main class="scroll">
+
+  <!-- HERO -->
+  <section class="hero geo">
+    <div class="glow"></div>
+    <div class="hero-inner">
+      <span class="eyebrow"><span class="dot"></span>Official Connectivity Partner</span>
+      <h2 class="event-name">Jalsa Salana<br>UK 2026</h2>
+      <div class="event-meta"><b>24–26 July 2026</b><br>Hadeeqatul Mahdi, Hampshire · 50,000+ guests from 90 countries</div>
+      <h1>Three networks for the price of one</h1>
+      <div class="net-strip">
+        <div class="net-tiles">
+          <div class="net-tile"><img src="assets/net-ee.png" alt="EE" /></div>
+          <div class="net-tile"><img src="assets/net-three.svg" alt="Three" /></div>
+          <div class="net-tile"><img src="assets/net-voda.svg" alt="Vodafone" /></div>
+        </div>
+      </div>
+      <div class="hero-points">
+        <div class="hero-point"><span class="hp-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13l0-8z" stroke="#e0c373" stroke-width="1.7" stroke-linejoin="round"/></svg></span>Quick installation</div>
+        <div class="hero-point"><span class="hp-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 8.5h13l-3.2-3.2M20 15.5H7l3.2 3.2" stroke="#e0c373" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Network switching for interrupted connectivity</div>
+        <div class="hero-point"><span class="hp-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M5 18v-3M10 18v-7M15 18v-11M20 18V4" stroke="#e0c373" stroke-width="1.7" stroke-linecap="round"/></svg></span>Strong, reliable UK coverage across the Jalsa site</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANS -->
+  <section class="sec" id="plans">
+    <div class="kicker">eSIM Plans for Jalsa</div>
+    <h2 class="title">Choose your data plan</h2>
+    <p class="sub">Pick the data you need for the days you're here — for local attendees and guests from abroad alike. Activated in minutes, right from your phone.</p>
+    <div class="toggle-note" style="margin-top:16px">One simple range of data plans · activate in minutes on most modern phones.</div>
+    <div class="cards" id="cards"></div>
+    <p class="fineprint">Prices shown are placeholders · Data-only eSIM plans.</p>
+  </section>
+
+  <!-- SECURE PAYMENT -->
+  <section class="sec">
+    <div class="kicker">Checkout</div>
+    <h2 class="title">Secure payment with</h2>
+    <div class="pay-logos">
+      <span class="pl"><span class="vw">VISA</span></span>
+      <span class="pl"><span class="pl-mc"><i class="r"></i><i class="y"></i></span></span>
+      <span class="pl"><svg width="14" height="17" viewBox="0 0 24 24" fill="#111"><path d="M16.5 12.6c0-2 1.6-3 1.7-3-1-1.4-2.4-1.6-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.2 2-1.4 2.4-.4 6 1 8 .6 1 1.4 2 2.4 2 1 0 1.3-.6 2.5-.6s1.5.6 2.5.6 1.7-.9 2.3-1.9c.7-1 1-2 1-2.1 0 0-1.9-.8-1.9-2.9zM14.7 6.3c.5-.7.9-1.6.8-2.5-.8 0-1.7.5-2.3 1.2-.5.6-.9 1.5-.8 2.4.9.1 1.8-.4 2.3-1.1z"/></svg><span class="ap">Pay</span></span>
+      <span class="pl"><span class="gp1">G</span><span class="gp2">Pay</span></span>
+      <span class="pl"><span style="font:italic 800 16px/1 Arial,sans-serif;color:#003087">Pay</span><span style="font:italic 800 16px/1 Arial,sans-serif;color:#009cde">Pal</span></span>
+      <span class="pl"><span class="rv">Revolut</span><span class="rvp">Pay</span></span>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="sec how" id="how">
+    <div class="kicker">Connected in three steps</div>
+    <h2 class="title">How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="2.5" y="5.5" width="19" height="13" rx="2.5" stroke="#c0278e" stroke-width="1.8"/><path d="M2.5 9.5h19" stroke="#c0278e" stroke-width="1.8"/><path d="M6 14.5h4" stroke="#c0278e" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div><div class="step-n">Step 1</div><h3>Buy your plan</h3><p>Pick a plan and pay securely in seconds.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-ico"><svg viewBox="0 0 24 24" fill="none"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5" stroke="#c0278e" stroke-width="1.8"/><path d="M12 7v7m0 0l-3-3m3 3l3-3" stroke="#c0278e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div><div class="step-n">Step 2</div><h3>Install your eSIM</h3><p>On desktop, scan the QR code and your eSIM installs itself — no card to insert. For the easiest setup, download the Amigo app, sign in with the email you used at checkout, and install in one tap.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M3 9.5C8 4.5 16 4.5 21 9.5M6 13c3.3-3 8.7-3 12 0M9.5 16.5c1.5-1.3 3.5-1.3 5 0" stroke="#c0278e" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="20" r="1.4" fill="#c0278e"/></svg></div>
+        <div><div class="step-n">Step 3</div><h3>Stay connected at Jalsa</h3><p>Land, switch on, and you're online across the grounds.</p></div>
+      </div>
+    </div>
+    <p class="how-foot">No SIM card. No waiting.<br>Works on most modern smartphones.</p>
+  </section>
+
+  <!-- COMPATIBILITY -->
+  <section class="sec" id="compat">
+    <div class="kicker">Compatibility</div>
+    <h2 class="title">Is your phone eSIM ready?</h2>
+    <p class="sub">There's a quick way to check, right from your dial pad — no settings menu, no guesswork.</p>
+    <div class="dial-card">
+      <div class="dial-label">Dial this on your phone</div>
+      <div class="dial-code">*#06#</div>
+      <p class="dial-help">If an <strong>EID</strong> number appears, your phone is eSIM compatible and ready to go.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sec faq" id="faq">
+    <div class="kicker">Good to know</div>
+    <h2 class="title">FAQ</h2>
+    <div class="faq-list">
+      <details class="faq-item"><summary class="faq-q">What is an eSIM and how does it work?<span class="faq-plus"></span></summary><div class="faq-a">An eSIM is a digital SIM built into your phone. Instead of a plastic card, you install your plan with one tap and switch it on in settings.</div></details>
+      <details class="faq-item"><summary class="faq-q">Is my phone compatible with eSIM?<span class="faq-plus"></span></summary><div class="faq-a">Most phones from around 2019 onward support eSIM, including iPhone XR and later. Your phone also needs to be carrier-unlocked.</div></details>
+      <details class="faq-item"><summary class="faq-q">How quickly can I activate after purchasing?<span class="faq-plus"></span></summary><div class="faq-a">Installation takes a couple of minutes. Set up before you travel and choose exactly when to activate.</div></details>
+      <details class="faq-item"><summary class="faq-q">Will my eSIM work travelling from another country?<span class="faq-plus"></span></summary><div class="faq-a">Yes. If your device is unlocked and eSIM-capable, buy and install before you fly — it connects to the UK network when you land.</div></details>
+      <details class="faq-item"><summary class="faq-q">What if I need help during the event?<span class="faq-plus"></span></summary><div class="faq-a">Support is in the app throughout Jalsa, with multilingual help on hand. Reach us at help@amigosim.com.</div></details>
+      <details class="faq-item"><summary class="faq-q">Can I top up my data if I run out?<span class="faq-plus"></span></summary><div class="faq-a">Yes — top up in seconds from the app without losing connection.</div></details>
+    </div>
+  </section>
+
+  <!-- APP DOWNLOAD STRIP (mobile web only) -->
+  <section class="sec appstrip-m geo">
+    <div class="kicker">The Amigo app</div>
+    <h2 class="title">Manage your eSIM on the go</h2>
+    <p>Top up, track your data during the event, and reach support — all in one place.</p>
+    <div class="store-badges">
+      <!-- PLACEHOLDER store URLs -->
+      <a class="store-badge" href="https://apps.apple.com/app/amigo-esim/id6462862531">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M16.5 12.6c0-2 1.6-3 1.7-3-1-1.4-2.4-1.6-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.2 2-1.4 2.4-.4 6 1 8 .6 1 1.4 2 2.4 2 1 0 1.3-.6 2.5-.6s1.5.6 2.5.6 1.7-.9 2.3-1.9c.7-1 1-2 1-2.1 0 0-1.9-.8-1.9-2.9zM14.7 6.3c.5-.7.9-1.6.8-2.5-.8 0-1.7.5-2.3 1.2-.5.6-.9 1.5-.8 2.4.9.1 1.8-.4 2.3-1.1z"/></svg>
+        <div><div class="sb-sub">Download on the</div><div class="sb-main">App Store</div></div>
+      </a>
+      <a class="store-badge" href="https://play.google.com/store/apps/details?id=com.coreamigo">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M3.6 2.2l10 9.8-10 9.8c-.4-.2-.6-.6-.6-1.1V3.3c0-.5.2-.9.6-1.1z" fill="#e0c373"/><path d="M16.8 8.6L13.6 12l3.2 3.4 3-1.7c.9-.5.9-1.9 0-2.4l-3-1.7z" fill="#e0c373"/><path d="M3.6 2.2c.2-.1.5-.1.8.1L17 9.4l-3.4 2.6-10-9.8z" fill="#fff" opacity=".85"/><path d="M3.6 21.8c.2.1.5.1.8-.1L17 14.6 13.6 12l-10 9.8z" fill="#fff" opacity=".6"/></svg>
+        <div><div class="sb-sub">Get it on</div><div class="sb-main">Google Play</div></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER (mobile web only) -->
+  <footer class="mfoot geo">
+    <img class="logo-img" src="assets/amigo-logo.png" alt="amigo" />
+    <div class="partner">Official connectivity partner of Jalsa Salana UK 2026</div>
+    <div class="mf-links">
+      <a href="#how">Installation Guide</a>
+      <a href="#faq">Troubleshooting</a>
+      <a href="#faq">FAQs</a>
+      <a href="mailto:help@amigosim.com">Contact Us</a>
+      <a href="#">Privacy Policy</a><!-- PLACEHOLDER URL -->
+    </div>
+    <div class="copy">help@amigosim.com · © 2026 Amigo. All rights reserved.</div>
+  </footer>
+
+</main>
+</div>
+
+<!-- (no sticky app CTA — this is the mobile web page) -->
+
+<script>
+const PLANS=[
+  {tier:"Starter",data:"5GB",valid:"3 days",price:"7.99",feats:["5G where available","Hotspot &amp; tethering","Quick WhatsApp, FaceTime &amp; Viber access","EE, Vodafone &amp; Three connectivity","Network switching"],featured:false},
+  {tier:"Standard",data:"8GB",valid:"5 days",price:"9.99",feats:["5G where available","Hotspot &amp; tethering","Quick WhatsApp, FaceTime &amp; Viber access","EE, Vodafone &amp; Three connectivity","Network switching"],featured:true},
+  {tier:"Extended",data:"12GB",valid:"7 days",price:"13.99",feats:["5G where available","Hotspot &amp; tethering","Quick WhatsApp, FaceTime &amp; Viber access","EE, Vodafone &amp; Three connectivity","Network switching"],featured:false}
+];
+const tick='<span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#c0278e" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+function renderPlans(){
+  document.getElementById('cards').innerHTML=PLANS.map(p=>`
+  <div class="card${p.featured?' featured':''}">
+    ${p.featured?'<div class="card-badge">Most Popular</div>':''}
+    <div class="card-top">
+      <div><div class="card-tier">${p.tier}</div><div class="card-data">${p.data}</div><div class="card-valid">${p.valid} · data only</div></div>
+      <div class="card-price"><span class="from">from</span><span class="amt">£${p.price}</span></div>
+    </div>
+    <ul class="card-feats">${p.feats.map(f=>`<li>${tick}${f}</li>`).join('')}</ul>
+    <!-- PLACEHOLDER checkout URL -->
+    <a class="btn btn-pink btn-block" href="#">Buy Now</a>
+  </div>`).join('');}
+renderPlans();
+
+/* (no status bar on mobile web) */
+window.__sbUpdate=function(){};
+</script>
+<!-- ══════ TWEAKS PANEL ══════ -->
+<aside id="tweaks" aria-label="Tweaks">
+  <div class="tw-head"><span class="tw-title">Tweaks</span><button class="tw-x" id="twClose" aria-label="Close">✕</button></div>
+  <div class="tw-group">
+    <div class="tw-label">Design direction</div>
+    <div class="tw-seg" data-key="direction">
+      <button class="tw-opt" data-val="forest">Forest &amp; Gold<small>Deep green hero · current</small></button>
+      <button class="tw-opt" data-val="ivory">Ivory &amp; Rose<small>Light, Amigo-forward</small></button>
+      <button class="tw-opt" data-val="emerald">Emerald Ceremonial<small>Centered · gold-forward</small></button>
+    </div>
+  </div>
+  <div class="tw-group">
+    <div class="tw-label">Geometric pattern</div>
+    <div class="tw-seg row" data-key="pattern">
+      <button class="tw-opt" data-val="standard">Standard</button>
+      <button class="tw-opt" data-val="subtle">Subtle</button>
+      <button class="tw-opt" data-val="off">Off</button>
+    </div>
+  </div>
+</aside>
+<script>
+const TWEAKS = /*EDITMODE-BEGIN*/{
+  "direction": "emerald",
+  "pattern": "standard"
+}/*EDITMODE-END*/;
+function applyTweaks(t){
+  const b=document.body;
+  b.classList.remove('dir-forest','dir-ivory','dir-emerald');
+  b.classList.add('dir-'+t.direction);
+  b.classList.remove('tex-subtle','tex-off');
+  if(t.pattern==='subtle') b.classList.add('tex-subtle');
+  if(t.pattern==='off') b.classList.add('tex-off');
+  document.querySelectorAll('#tweaks .tw-seg').forEach(seg=>{
+    const key=seg.dataset.key;
+    seg.querySelectorAll('.tw-opt').forEach(o=>o.classList.toggle('on', o.dataset.val===t[key]));
+  });
+  if(window.__sbUpdate) window.__sbUpdate();
+}
+applyTweaks(TWEAKS);
+document.querySelectorAll('#tweaks .tw-seg').forEach(seg=>{
+  seg.addEventListener('click',e=>{
+    const opt=e.target.closest('.tw-opt'); if(!opt) return;
+    TWEAKS[seg.dataset.key]=opt.dataset.val;
+    applyTweaks(TWEAKS);
+    window.parent.postMessage({type:'__edit_mode_set_keys', edits:{[seg.dataset.key]:opt.dataset.val}}, '*');
+  });
+});
+const twPanel=document.getElementById('tweaks');
+window.addEventListener('message',e=>{
+  const t=e.data&&e.data.type;
+  if(t==='__activate_edit_mode') twPanel.classList.add('show');
+  if(t==='__deactivate_edit_mode') twPanel.classList.remove('show');
+});
+document.getElementById('twClose').addEventListener('click',()=>{
+  twPanel.classList.remove('show');
+  window.parent.postMessage({type:'__edit_mode_dismissed'}, '*');
+});
+window.parent.postMessage({type:'__edit_mode_available'}, '*');
+</script>
+</body>
+</html>
